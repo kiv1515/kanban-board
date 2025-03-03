@@ -4,16 +4,19 @@ import Auth from '../utils/auth';
 
 const retrieveTickets = async () => {
   try {
-    const response = await fetch(
-      '/api/tickets/',
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${Auth.getToken()}`
-        }
+    const response = await fetch('/api/tickets', {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${Auth.getToken()}`
       }
-    );
-    const data = await response.json();
+    });
+    
+    console.log('Response status:', response.status);
+    console.log('Response headers:', response.headers);
+    const responseText = await response.text();
+    console.log('Raw response:', responseText);
+    
+    const data = JSON.parse(responseText);
 
     if(!response.ok) {
       throw new Error('invalid API response, check network tab!');
